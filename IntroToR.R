@@ -1,5 +1,5 @@
 # Introduction to R Workshop
-# Cornell Computational Social Sciences
+# Cornell Center for Social Sciences
 # Adapted from Data Carpentry’s R for Social Scientists(https://datacarpentry.org/r-socialsci) and the D-Lab at Berkeley's R Fundamentals(https://github.com/dlab-berkeley/R-Fundamentals)
 
 # Section 1: Navigating RStudio
@@ -204,8 +204,8 @@ id_vector[3]
 name_vector[2:4]
 
 ## We can also use logical tests to subset vectors. 
-id > 3
-id[id > 3]
+id_vector > 3
+id_vector[id_vector > 3]
 
 ##R also provides the operator %in% to test if a value belongs to a vector. 
 TRUE %in% enrolled_vector
@@ -266,3 +266,9 @@ df
 ### 2. Add a fourth column that calculates the total cost for each food item.
 ### 3. Store the totol cost of all the fruits combined in a new variable. Hint: ?sum
 
+# Section 6: Loading CSV File
+## Most of the time you will be working with pre-existing datasets that you will want to import into R. R provides many functions to read in datasets, once such function is read.csv().
+
+## Provide the path of the file
+sampleDataset = read.csv("studentFacultyRatio.csv")
+class(sampleDataset) ## The imported dataset is a dataframe
