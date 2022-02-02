@@ -264,7 +264,7 @@ df
 ### Challenge 4: Make your own data frame.
 ### 1. Create a data frame that contains four different food items and three attributes for each: name, price, and quantity.
 ### 2. Add a fourth column that calculates the total cost for each food item.
-### 3. Store the totol cost of all the fruits combined in a new variable. Hint: ?sum
+### 3. Calculate the total cost of all the fruits combined. Hint: ?sum
 
 # Section 6: Loading CSV File
 ## Most of the time you will be working with pre-existing datasets that you will want to import into R. R provides many functions to read in datasets, once such function is read.csv().
