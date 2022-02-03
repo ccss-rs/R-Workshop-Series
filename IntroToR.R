@@ -166,7 +166,7 @@ TRUE | FALSE
 
 # Section 5.1: Vectors
 ## A vector is the most common and basic data type in R, and is pretty much the workhorse of R. A vector is composed by a series of values. We can assign a series of values to a vector using the c() function.
-id_vector <- c(1, 2, 3, 4, 5)
+id_vector <- c(4, 2, 9, 4, 8)
 name_vector <- c("Roxanna", "Traci", "Jude", "Sharleen", "Bryce")
 code_vector <- c("GH", "GW", "GH", "GW", "GH")
 enrolled_vector <- c(T, T, F, TRUE, FALSE)
