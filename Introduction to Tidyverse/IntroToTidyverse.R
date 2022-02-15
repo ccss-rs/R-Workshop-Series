@@ -69,8 +69,8 @@ summarize(mean(lifeExp))
 gapminder_summarize <- gapminder %>%
   group_by(continent, year) %>%
   summarize(meanGDP = mean(gdpPercap)) # We can name the new column in the summarize function
-head(gapminder_pipe)
-dim(gapminder_pipe)
+head(gapminder_summarize)
+dim(gapminder_summarize)
 
 ## Note that the output is a grouped tibble. To obtain an ungrouped tibble, use the ungroup function:
 gapminder %>% 
