@@ -89,26 +89,6 @@ gapminder %>%
             mingdp = min(year)) %>% 
   arrange(desc(meanLife))
 
-## Note that the output is a grouped tibble. To obtain an ungrouped tibble, use the ungroup function:
-gapminder %>% 
-  group_by(continent) %>% 
-  summarize(mean(lifeExp)) %>%
-  ungroup()
-
-## We can also run group_by() and mutate() in combination to apply analysis to each group and add the grouped results to the original data frame
-gapminder_mutate_summarize <- gapminder %>% 
-  group_by(continent) %>% 
-  mutate(meanLife = mean(lifeExp))
-
-view(gapminder_mutate_summarize)
-
-gapminder_mutate_summarize <- gapminder %>%  
-  group_by(continent, year) %>% 
-   mutate(mean_continent_gdp = mean(gdpPercap),
-          gdpPercap_diff = gdpPercap - mean_continent_gdp)
-
-
-
 ### Challenge 2: Analyzing Data
 ### 1. How many countries in the survey have a lifeExp rounded to the nearest integer of 30? or 36? 
 ### 2. Use group_by() and summarize() to find the mean, min, and max number of pop for each continent. Also add the number of observations (hint: see ?n).
