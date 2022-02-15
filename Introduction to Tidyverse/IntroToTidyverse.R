@@ -31,7 +31,7 @@ summary(gapminder)
 ## Section 3.1: Using dplyr to Subset Data
 ## In dplyr, we can use the "select" function to select columns:
 select(gapminder, country)
-gapminder_select = select(gapminder, country, year, pop)
+gapminder_select <- select(gapminder, country, year, pop)
 head(gapminder_select)
 dim(gapminder_select)
 
@@ -39,14 +39,23 @@ dim(gapminder_select)
 filter(gapminder, year==1952)
 filter(gapminder, continent==Asia)
 filter(gapminder, continent=="Asia" & year > 1980)
-gapminder_filter = filter(gapminder, continent=="Asia" | continent=="Europe")
+gapminder_filter <- filter(gapminder, continent=="Asia" | continent=="Europe")
 head(gapminder_filter)
 dim(gapminder_filter)
+
+## We can use the arrange() to sort the data.frame
+arrange(gapminder, pop)
+
+## We can use desc in the arrange() to sort in decreasing order
+arrange(gapminder, desc(pop))
+
+## We can use the count() to count observations
+count(gapminder, continent)
 
 ## dplyr comes with a "piping" operator that allows us to perform multiple computations on the same data frame in a single command. 
 ## This operator is %>%: you can think of it as taking the output of the left hand side, and passing it into the function on the right hand side.
 ## Command 1 %>% "then" Command 2
-gapminder_pipe = select(gapminder, country, year, lifeExp) %>%
+gapminder_pipe <- select(gapminder, country, year, lifeExp) %>%
   filter (year<1980)
 head(gapminder_pipe)
 dim(gapminder_pipe)
@@ -63,40 +72,16 @@ mutate(gdptotal = pop*gdpPercap)
 ## We can use the group_by() function to split the data into groups, apply some analysis to each group, and then combine the results
 ### The group_by() function is frequently used with the summarize() function to collapse the results for each group into one row
 gapminder %>% 
-group_by(continent) %>% 
-summarize(mean(lifeExp))
+  group_by(continent) %>% 
+  summarize(mean(lifeExp))
 
 gapminder_summarize <- gapminder %>%
   group_by(continent, year) %>%
   summarize(meanGDP = mean(gdpPercap)) # We can name the new column in the summarize function
+
 head(gapminder_summarize)
 dim(gapminder_summarize)
 
-## Note that the output is a grouped tibble. To obtain an ungrouped tibble, use the ungroup function:
-gapminder %>% 
-  group_by(continent) %>% 
-  summarize(mean(lifeExp)) %>%
-  ungroup()
-
-## We can also run group_by() and mutate() in combination to apply analysis to each group, but do not collapse the results
-gapminder_mutate_summarize <- gapminder %>% 
-  group_by(continent) %>% 
-  mutate(meanLife = mean(lifeExp))
-view(gapminder_mutate_summarize)
-
-gapminder %>%  
-  group_by(continent, year) %>% 
-   mutate(mean_continent_gdp = mean(gdpPercap),
-          gdpPercap_diff = gdpPercap - mean_continent_gdp) %>% 
-  arrange(desc(gdpPercap_diff))
-
-## We can use the arrange() to sort the data.frame
-gapminder %>%
-  arrange(pop)
-
-## We can use desc in the arrange() to sort in decreasing order
-gapminder %>%
-  arrange(desc(pop))
 
 gapminder %>% 
   group_by(continent) %>% 
@@ -104,13 +89,25 @@ gapminder %>%
             mingdp = min(year)) %>% 
   arrange(desc(meanLife))
 
-## We can use the count() to count observations
-gapminder %>%
-  count(continent)
-
+## Note that the output is a grouped tibble. To obtain an ungrouped tibble, use the ungroup function:
 gapminder %>% 
-  filter(pop > 10000000 & gdpPercap > 5000) %>% 
-  count(continent)
+  group_by(continent) %>% 
+  summarize(mean(lifeExp)) %>%
+  ungroup()
+
+## We can also run group_by() and mutate() in combination to apply analysis to each group and add the grouped results to the original data frame
+gapminder_mutate_summarize <- gapminder %>% 
+  group_by(continent) %>% 
+  mutate(meanLife = mean(lifeExp))
+
+view(gapminder_mutate_summarize)
+
+gapminder_mutate_summarize <- gapminder %>%  
+  group_by(continent, year) %>% 
+   mutate(mean_continent_gdp = mean(gdpPercap),
+          gdpPercap_diff = gdpPercap - mean_continent_gdp)
+
+
 
 ### Challenge 2: Analyzing Data
 ### 1. How many countries in the survey have a lifeExp rounded to the nearest integer of 30? or 36? 
