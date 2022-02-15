@@ -55,6 +55,7 @@ count(gapminder, continent)
 ## dplyr comes with a "piping" operator that allows us to perform multiple computations on the same data frame in a single command. 
 ## This operator is %>%: you can think of it as taking the output of the left hand side, and passing it into the function on the right hand side.
 ## Command 1 %>% "then" Command 2
+## You can use ctrl+shift+m for PC and cmd+shift+m for mac to insert "%>%"
 gapminder_pipe <- select(gapminder, country, year, lifeExp) %>%
   filter (year<1980)
 head(gapminder_pipe)
