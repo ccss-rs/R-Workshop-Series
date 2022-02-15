@@ -1,4 +1,6 @@
 # Introduction Tidyverse
+# Cornell Center for Social Sciences
+# Adapted from Data Carpentry’s R for Social Scientists(https://datacarpentry.org/r-socialsci)
 
 ## Section 1: Loading Tidyverse
 ## We need to first install this package. We can do so by running the install.packages() function:
@@ -163,9 +165,47 @@ interviews_wide <- interviews %>%
                 values_from = wall_type_logical,
                 values_fill = list(wall_type_logical = FALSE))
 
+## This new format can be used to answer different questions, such as what is the differences in households grouped by different types of construction materials. We can run a couple regressions to understand the difference in format. The basic regression syntax is (Dependent Variable~Independent Variables, data=Data Source)
+interviews_wide_lm <- lm(years_liv ~ muddaub + burntbricks + sunbricks + cement, 
+                        data = interviews_wide)
+summary(interviews_wide_lm)
+table(interviews_wide$cement)
+
 ## Section 6.2 Pivoting longer
 ## The opposite of `pivot_wider` is `pivot_longer`.
 interviews_long <- interviews_wide %>%
-    pivot_longer(cols = burntbricks:sunbricks,
+    pivot_longer(cols = c(burntbricks, cement, muddaub, sunbricks),
                  names_to = "respondent_wall_type",
                  values_to = "wall_type_logical")
+
+interviews_long <- interviews_wide %>%
+    pivot_longer(cols = c(burntbricks, cement, muddaub, sunbricks),
+                 names_to = "respondent_wall_type",
+                 values_to = "wall_type_logical") %>%
+  filter(wall_type_logical) %>%
+  select(-wall_type_logical)
+
+## We can run the regression again on the long format and notice that the only thing that changes is the coefficients. The regression needs a comparison group and defaults to the largest group in the column.
+interviews_long_lm <- lm(years_liv~respondent_wall_type, data=interviews_long)
+summary(interviews_long_lm)
+
+## Section 6.3 Using Pivot Wider to clean data
+## Pivot wider can also be helpful when you have column that contains multiple values.
+interviews$items_owned
+
+interviews_items_owned <- interviews %>%
+  separate_rows(items_owned, sep = ";") %>%
+  replace_na(list(items_owned = "no_listed_items")) %>%
+  mutate(items_owned_logical = TRUE) %>%
+    pivot_wider(names_from = items_owned,
+                values_from = items_owned_logical,
+                values_fill = list(items_owned_logical = FALSE))
+
+nrow(interviews_items_owned)
+view(interviews_items_owned)
+
+## We calculate the average number of items from the list owned by respondents in each village. The rowSums() function can count the amount of TRUE values for given number of columns.
+interviews_items_owned %>%
+    mutate(number_items = rowSums(select(., bicycle:car))) %>%
+    group_by(village) %>%
+    summarize(mean_items = mean(number_items))
