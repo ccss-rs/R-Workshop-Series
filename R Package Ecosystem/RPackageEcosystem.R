@@ -23,7 +23,7 @@ library(psych)
 library(dplyr)
 
 outlier() # Will use the outlier function from the psych package
-outlier() # Will use the outlier function from the randomForest package
+randomForest::outlier() # Will use the outlier function from the randomForest package
 
 ## Over time packages will deprecate a function, typically in favor of a more accurate function. Let's look at the combine function in the dplyr package.
 ?combine
